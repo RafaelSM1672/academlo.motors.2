@@ -2,12 +2,12 @@ const cors = require('cors');
 const express = require('express');
 const morgan = require('morgan');
 
-const AppError = require('../utils/appError');
+const AppError = require('utils/appError');
 
 //routes
-const authRouter = require('./routes/auth.routes');
-const userRouter = require('./routes/users.routes');
-const repairRouter = require('./routes/repairs.routes');
+const authRouter = require('routes/auth.routes');
+const userRouter = require('routes/users.routes');
+const repairRouter = require('routes/repairs.routes');
 
 const app = express();
 
