@@ -1,7 +1,7 @@
 const User = require('../models/users.model');
 const catchAsync = require('../utils/catchAsync');
 
-exports.findAllUsers = catchAsync(async (req, res, next) => {
+exports.findUsers = catchAsync(async (req, res, next) => {
   const users = await User.findAll({
     where: {
       status: 'available',
