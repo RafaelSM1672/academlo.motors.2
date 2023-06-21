@@ -1,81 +1,52 @@
 const User = require('../models/users.model');
+const catchAsync = require('../utils/catchAsync');
 
-exports.findUsers = async (req, res) => {
-  try {
-    const users = await User.findAll({
-      where: {
-        status: 'available',
-      },
-    });
+exports.findAllUsers = catchAsync(async (req, res, next) => {
+  const users = await User.findAll({
+    where: {
+      status: 'available',
+    },
+  });
 
-    return res.json({
-      results: users.length,
-      status: 'success',
-      message: 'Users find',
-      users,
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      status: 'fail',
-      message: 'Something went very wrong!',
-    });
-  }
-};
+  return res.json({
+    results: users.length,
+    status: 'success',
+    message: 'Users find',
+    users,
+  });
+});
 
-exports.findUser = async (req, res) => {
-  try {
-    const { user } = req;
+exports.findUser = catchAsync(async (req, res) => {
+  const { user } = req;
 
-    res.json({
-      status: 'success',
-      message: `User #${user.id} found`,
-      user,
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      status: 'fail',
-      message: 'Something went very wrong!',
-    });
-  }
-};
+  res.json({
+    status: 'success',
+    message: `User #${user.id} found`,
+    user,
+  });
+});
 
-exports.updateUser = async (req, res) => {
-  try {
-    const { user } = req;
+exports.updateUser = catchAsync(async (req, res) => {
+  const { user } = req;
 
-    const { name, email } = req.body;
+  const { name, email } = req.body;
 
-    await user.update({ name, email });
+  await user.update({ name, email });
 
-    return res.status(200).json({
-      status: 'success',
-      message: 'The user has been updated',
-      user,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      status: 'fail',
-      message: 'Something went very wrong!',
-    });
-  }
-};
+  return res.status(200).json({
+    status: 'success',
+    message: 'The user has been updated',
+    user,
+  });
+});
 
-exports.deleteUser = async (req, res) => {
-  try {
-    const { user } = req;
+exports.deleteUser = catchAsync(async (req, res) => {
+  const { user } = req;
 
-    await user.update({ status: 'disabled' });
+  await user.update({ status: 'disabled' });
 
-    return res.status(200).json({
-      status: 'success',
-      message: 'The user has been disabled',
-    });
-  } catch (error) {
-    return res.status(500).json({
-      status: 'fail',
-      message: 'Something went very wrong!',
-    });
-  }
-};
+  return res.status(200).json({
+    status: 'success',
+    message: 'The user has been disabled',
+  });
+});
