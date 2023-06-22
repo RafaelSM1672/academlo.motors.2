@@ -13,6 +13,7 @@ const validFields = (req, res, next) => {
   next();
 };
 
+//Users
 exports.createUserValidation = [
   body('name').notEmpty().withMessage('Name cannot be empty'),
   body('email')
@@ -53,5 +54,26 @@ exports.updateUserValidation = [
     .withMessage('Password cannot be empty')
     .isLength({ min: 8 })
     .withMessage('Password must be at least 8 characters long'),
+  validFields,
+];
+
+//Repairs
+exports.createAppointmentValidation = [
+  body('date')
+    .notEmpty()
+    .withMessage('Date cannot be empty')
+    .isDate()
+    .withMessage('Invalid date format'),
+  body('userId')
+    .notEmpty()
+    .withMessage('User ID cannot be empty')
+    .isNumeric()
+    .withMessage('User ID must be number'),
+  body('motorsNumber')
+    .notEmpty()
+    .withMessage('Motors number cannot be empty')
+    .isNumeric()
+    .withMessage('Motors number must be number'),
+  body('description').notEmpty().withMessage('Description cannot be empty'),
   validFields,
 ];

@@ -1,6 +1,7 @@
 const Repair = require('../models/repairs.model');
+const catchAsync = require('../utils/catchAsync');
 
-exports.findRepairs = async (req, res) => {
+exports.findRepairs = catchAsync(async (req, res) => {
   const time = req.requestTime;
 
   const repairs = await Repair.findAll({
@@ -15,132 +16,105 @@ exports.findRepairs = async (req, res) => {
     message: 'Repairs find',
     repairs,
   });
-};
+});
 
-exports.findRepair = async (req, res) => {
-  try {
-    const time = req.requestTime;
-    const { id } = req.params;
-    const { status } = req.body;
+exports.findRepair = catchAsync(async (req, res) => {
+  const time = req.requestTime;
+  const { id } = req.params;
+  const { status } = req.body;
 
-    const repair = await Repair.findOne({
-      where: {
-        id,
-        status: 'pending',
-      },
-    });
+  const repair = await Repair.findOne({
+    where: {
+      id,
+      status: 'pending',
+    },
+  });
 
-    if (!repair) {
-      return res.status(404).json({
-        status: 'error',
-        message: `The repair whith id: ${id} not found!`,
-      });
-    }
-
-    res.json({
-      requestTime: time,
-      message: `Repair #${id} found`,
-      repair,
-      status,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      status: 'fail',
-      message: 'Something went very wrong!',
+  if (!repair) {
+    return res.status(404).json({
+      status: 'error',
+      message: `The repair whith id: ${id} not found!`,
     });
   }
-};
 
-exports.createAppointment = async (req, res) => {
-  try {
-    //1-Obtener información de la req.body
-    const { date, userId } = req.body;
-    const time = req.requestTime;
-    //2. Crear la cita usando el modelo
-    const appointment = await Repair.create({
-      date,
-      userId,
-    });
+  res.json({
+    requestTime: time,
+    message: `Repair #${id} found`,
+    repair,
+    status,
+  });
+});
 
-    res.json({
-      requestTime: time,
-      message: 'The appointment has been created!',
-      appointment,
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: 'fail',
-      message: 'Something went very wrong!',
-    });
-  }
-};
+exports.createAppointment = catchAsync(async (req, res) => {
+  //1-Obtener información de la req.body
+  const { date, userId } = req.body;
+  const time = req.requestTime;
+  //2. Crear la cita usando el modelo
+  const appointment = await Repair.create({
+    date,
+    userId,
+    motorsNumber,
+    description,
+  });
 
-exports.updateStatus = async (req, res) => {
-  try {
-    const time = req.requestTime;
-    const { id } = req.params;
-    const { status } = req.body;
+  res.json({
+    requestTime: time,
+    message: 'The appointment has been created!',
+    appointment,
+  });
+});
 
-    const repair = await Repair.findOne({
-      where: {
-        id,
-      },
-    });
+exports.updateStatus = catchAsync(async (req, res) => {
+  const time = req.requestTime;
+  const { id } = req.params;
+  const { status } = req.body;
 
-    if (!repair) {
-      return res.status(404).json({
-        status: 'error',
-        message: `Repair with id: ${id} not found`,
-      });
-    }
+  const repair = await Repair.findOne({
+    where: {
+      id,
+    },
+  });
 
-    await repair.update({ status: 'completed' });
-
-    return res.status(200).json({
-      requestTime: time,
-      message: 'The repair has been updated',
-      repair,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      status: 'fail',
-      message: 'Something went very wrong!',
+  if (!repair) {
+    return res.status(404).json({
+      status: 'error',
+      message: `Repair with id: ${id} not found`,
     });
   }
-};
 
-exports.cancelAppointment = async (req, res) => {
-  try {
-    const time = req.requestTime;
-    const { id } = req.params;
-    const { status } = req.body;
+  await repair.update({ status: 'completed' });
 
-    const repair = await Repair.findOne({
-      where: {
-        status: 'pending',
-        id,
-      },
-    });
+  return res.status(200).json({
+    requestTime: time,
+    message: 'The repair has been updated',
+    repair,
+  });
+});
 
-    if (!repair) {
-      return res.status(404).json({
-        status: 'error',
-        message: `Repair with id: ${id} not found`,
-      });
-    }
+exports.cancelAppointment = catchAsync(async (req, res) => {
+  const time = req.requestTime;
+  const { id } = req.params;
+  const { status } = req.body;
 
-    await repair.update({ status: 'cancelled' });
+  const repair = await Repair.findOne({
+    where: {
+      status: 'pending',
+      id,
+    },
+  });
 
-    return res.status(200).json({
-      requestTime: time,
-      repair,
-      message: 'The repair has been cancelled',
-    });
-  } catch (error) {
-    return res.status(500).json({
-      status: 'fail',
-      message: 'Something went very wrong!',
+  if (!repair) {
+    return res.status(404).json({
+      status: 'error',
+      message: `Repair with id: ${id} not found`,
     });
   }
-};
+
+  await repair.update({ status: 'cancelled' });
+
+  return res.status(200).json({
+    requestTime: time,
+    repair,
+    message: 'The repair has been cancelled',
+  });
+});

@@ -32,7 +32,7 @@ const Repair = db.define('repairs', {
   },
 
   userId: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
 });
