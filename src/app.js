@@ -6,7 +6,7 @@ const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/error.controller');
 
 //routes
-const authRouter = require('./routes/auth.routes');
+const authRouter = require('./routes/users.routes');
 const userRouter = require('./routes/users.routes');
 const repairRouter = require('./routes/repairs.routes');
 
