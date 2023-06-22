@@ -17,17 +17,29 @@ router.post(
   authController.signup
 );
 
-router.post('/login', authController.login);
-
-router.use(authMiddleware.protect);
-
-router.get('/', authMiddleware.restrictTo('admin'), userController.findUsers);
+router.post(
+  '/login',
+  validationMiddleware.loginUserValidation,
+  authController.login
+);
 
 router.get('/renew', authController.renew);
 
+router.use(authMiddleware.protect);
+
+router.get(
+  '/',
+  authMiddleware.restrictTo('employee'),
+  userController.findUsers
+);
+
 router
   .route('/:id')
-  .get(userMiddleware.validUser, userController.findUser)
+  .get(
+    authMiddleware.restrictTo('employee'),
+    userMiddleware.validUser,
+    userController.findUser
+  )
   .patch(userMiddleware.validUser, userController.updateUser)
   .delete(userMiddleware.validUser, userController.deleteUser);
 
