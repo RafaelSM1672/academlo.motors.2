@@ -11,11 +11,7 @@ const router = express.Router();
 
 router.use(authMiddleware.protect);
 
-router.get(
-  '/',
-  authMiddleware.restrictTo('admin'),
-  userController.findAllUsers
-);
+router.get('/', authMiddleware.restrictTo('admin'), userController.findUsers);
 
 router
   .route('/:id')
