@@ -14,7 +14,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     name: name.toLowerCase(),
     email: email.toLowerCase(),
     password: encryptedPassword,
-    role: role.toLowerCase(),
+    role,
     status,
   });
 
