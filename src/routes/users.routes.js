@@ -23,23 +23,15 @@ router.post(
   authController.login
 );
 
-router.get('/renew', authController.renew);
-
 router.use(authMiddleware.protect);
 
-router.get(
-  '/',
-  authMiddleware.restrictTo('employee'),
-  userController.findUsers
-);
+router.get('/renew', authController.renew);
+
+router.get('/', userController.findUsers);
 
 router
   .route('/:id')
-  .get(
-    authMiddleware.restrictTo('employee'),
-    userMiddleware.validUser,
-    userController.findUser
-  )
+  .get(userMiddleware.validUser, userController.findUser)
   .patch(userMiddleware.validUser, userController.updateUser)
   .delete(userMiddleware.validUser, userController.deleteUser);
 

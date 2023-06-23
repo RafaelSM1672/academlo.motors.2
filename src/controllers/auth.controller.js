@@ -14,7 +14,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     name: name.toLowerCase(),
     email: email.toLowerCase(),
     password: encryptedPassword,
-    role,
+    role: role.toLowerCase(),
     status,
   });
 
@@ -43,7 +43,7 @@ exports.login = catchAsync(async (req, res, next) => {
   const user = await User.findOne({
     where: {
       email: email.toLowerCase(),
-      status: 'active',
+      status: 'available',
     },
   });
 
