@@ -52,7 +52,7 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 
   //3. Validar si la contraseña es correcta
-  if (await bcrypt.compare(password, user.password)) {
+  if (!(await bcrypt.compare(password, user.password))) {
     return next(new AppError(`Incorrect email or password`, 401));
   }
 
