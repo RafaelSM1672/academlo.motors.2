@@ -10,12 +10,18 @@ exports.validRepair = catchAsync(async (req, res, next) => {
       id,
       status: 'pending',
     },
+    include: [
+      {
+        model: User,
+      },
+    ],
   });
 
   if (!repair) {
     return next(new AppError(`Repair with id: ${id} not found`, 404));
   }
 
-  req.repair = repair;
+  req.user = repair.user;
+  req.post = repair;
   next();
 });

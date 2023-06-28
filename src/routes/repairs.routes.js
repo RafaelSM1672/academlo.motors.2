@@ -15,6 +15,7 @@ router
   .get(authMiddleware.restrictTo('employee'), repairController.findRepairs)
   .post(
     validationMiddleware.createAppointmentValidation,
+    authMiddleware.protect,
     repairController.createAppointment
   );
 

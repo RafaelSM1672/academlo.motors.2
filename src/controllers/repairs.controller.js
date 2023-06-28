@@ -2,16 +2,19 @@ const Repair = require('../models/repairs.model');
 const catchAsync = require('../utils/catchAsync');
 
 exports.findRepairs = catchAsync(async (req, res) => {
-  const time = req.requestTime;
-
   const repairs = await Repair.findAll({
     where: {
       status: 'pending',
     },
+
+    include: [
+      {
+        model: User,
+      },
+    ],
   });
 
   res.json({
-    requestTime: time,
     results: repairs.length,
     message: 'Repairs find',
     repairs,
@@ -47,14 +50,14 @@ exports.findRepair = catchAsync(async (req, res) => {
 
 exports.createAppointment = catchAsync(async (req, res) => {
   //1-Obtener información de la req.body
-  const { date, userId } = req.body;
-  const time = req.requestTime;
+  const { date, motorsNumber, description } = req.body;
+  const { id } = req.sessionUser;
   //2. Crear la cita usando el modelo
   const appointment = await Repair.create({
     date,
-    userId,
     motorsNumber,
     description,
+    userId: id,
   });
 
   res.json({
