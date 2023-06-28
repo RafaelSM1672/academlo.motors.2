@@ -10,12 +10,13 @@ const authMiddleware = require('./../middlewares/auth.middleware');
 
 const router = express.Router();
 
+router.use(authMiddleware.protect);
+
 router
   .route('/')
   .get(authMiddleware.restrictTo('employee'), repairController.findRepairs)
   .post(
     validationMiddleware.createAppointmentValidation,
-    authMiddleware.protect,
     repairController.createAppointment
   );
 
