@@ -34,3 +34,5 @@
 [2023-06-24T18:59:18.293Z] info Incorrect email or password Error: Incorrect email or password
 [2023-06-24T19:01:34.028Z] info Incorrect email or password Error: Incorrect email or password
 [2023-06-24T19:06:16.634Z] info Incorrect email or password Error: Incorrect email or password
+[2023-06-29T00:36:40.692Z] info no existe la columna «passwordChangedAt» SequelizeDatabaseError: no existe la columna «passwordChangedAt»
+[2023-06-29T00:42:00.466Z] info no existe la columna «passwordChangedAt» SequelizeDatabaseError: no existe la columna «passwordChangedAt»

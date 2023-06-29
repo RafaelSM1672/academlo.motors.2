@@ -32,8 +32,16 @@ router.get('/', userController.findUsers);
 router
   .route('/:id')
   .get(userMiddleware.validUser, userController.findUser)
-  .patch(userMiddleware.validUser, userController.updateUser)
-  .delete(userMiddleware.validUser, userController.deleteUser);
+  .patch(
+    userMiddleware.validUser,
+    authMiddleware.protectAccountOwner,
+    userController.updateUser
+  )
+  .delete(
+    userMiddleware.validUser,
+    authMiddleware.protectAccountOwner,
+    userController.deleteUser
+  );
 
 router.patch(
   '/password/:id',
