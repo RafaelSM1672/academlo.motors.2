@@ -51,3 +51,4 @@
 [2023-06-29T02:22:48.974Z] info el operador no existe: character varying = integer SequelizeDatabaseError: el operador no existe: character varying = integer
 [2023-06-29T02:25:14.660Z] info el operador no existe: character varying = integer SequelizeDatabaseError: el operador no existe: character varying = integer
 [2023-06-29T02:26:55.288Z] info el operador no existe: character varying = integer SequelizeDatabaseError: el operador no existe: character varying = integer
+[2023-06-29T02:43:24.577Z] info You do not have permission to perform this action! Error: You do not have permission to perform this action!
