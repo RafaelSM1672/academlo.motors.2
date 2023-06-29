@@ -11,7 +11,7 @@ const Repair = db.define('repairs', {
   },
 
   date: {
-    type: DataTypes.STRING,
+    type: DataTypes.DATE,
     allowNull: false,
   },
 
